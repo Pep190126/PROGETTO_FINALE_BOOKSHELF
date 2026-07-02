@@ -7,7 +7,6 @@ async function login(req, res) {
     return res.status(400).json({errore: 'Body non valorizzato'});
   }
   const {username, password} = req.body;
-  console.log('LOGIN TENTATIVO:', username, password);
   if (!username?.trim() || !password?.trim()) {
     return res.status(400).json({errore: 'Username e password sono obbligatori'});
   }
@@ -24,9 +23,6 @@ async function login(req, res) {
     //cripta la pwd mandata nella request in chiaro confrontandola con quella del db (criptata)
 
     const isCorretta = await bcrypt.compare(password.trim(), utente.password_hash);
-    console.log('PASSWORD CORRETTA:', isCorretta);
-    console.log('HASH NEL DB:', utente.password_hash);
-
     if (!isCorretta) {
       return res.status(401).json({errore: 'Password errata'});
     }
